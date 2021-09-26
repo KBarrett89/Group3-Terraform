@@ -47,3 +47,35 @@ resource "aws_instance" "manager" {
 	Name = "manager"	
   }
 }
+
+resource "aws_launch_configuration" "launch_conf" {
+  name_prefix   = "docker-swarm-worker-"
+  image_id		= "ami-0a8e758f5e873d1c1"
+  instance_type = "t2.micro"
+  security_groups = [var.sec_docker_swarm_id]
+  user_data		=  "${file("workerSetup.sh")}"
+  key_name		=   "AWSKeyPair"
+
+  lifecycle {
+	    create_before_destroy = true
+  }
+}
+
+resource "aws_autoscaling_group" "autoscalling" {
+  name                 = "docker-swarm-worker"
+  launch_configuration = aws_launch_configuration.launch_conf.name
+  min_size             = 1
+  max_size             = 3
+  desired_capacity     = 1
+  vpc_zone_identifier  = [var.subnet_private_id]
+
+  lifecycle {
+	    create_before_destroy = true
+  }
+
+  tag {
+	key = "AWSKeyPair"
+	value = "bar"
+    propagate_at_launch = true
+}
+}

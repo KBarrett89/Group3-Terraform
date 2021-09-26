@@ -1,3 +1,3 @@
-/*variable "nat_gateway" {
+variable "nat_gateway" {
 	
-}*/
+}

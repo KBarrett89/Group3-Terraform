@@ -42,10 +42,6 @@ resource "aws_network_interface" "manager-nic" {
   private_ips     = ["15.0.2.50"]
   security_groups = [var.sec_web_id, var.sec_jenkins_id, var.sec_internal_ssh_id, var.sec_docker_swarm_id]
 }
-resource "aws_network_interface" "nat-gateway" {
-  subnet_id       = aws_subnet.subnet-public.id
-  private_ips	  = ["15.0.1.34"]
-}
 resource "aws_eip" "one" {
   vpc                       = true
   network_interface         = aws_network_interface.jenkins-nic.id

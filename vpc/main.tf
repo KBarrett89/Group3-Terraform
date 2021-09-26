@@ -23,10 +23,10 @@ resource "aws_route_table" "public_route_table" {
 resource "aws_route_table" "private_route_table" {
   vpc_id = aws_vpc.prod-vpc.id
 
-  /*route {
+  route {
     cidr_block = "0.0.0.0/0"
     nat_gateway_id = var.nat_gateway.id
-  }*/
+  }
 }
 
 resource "aws_security_group" "allow_web" {

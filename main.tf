@@ -17,7 +17,7 @@ provider "aws" {
 } 
 module "vpc" {
     source          = "./vpc"
-//	nat_gateway		= module.subnets.nat_gateway
+	nat_gateway		= module.subnets.nat_gateway
 }
 
 module "ec2" {
@@ -25,4 +25,12 @@ module "ec2" {
     nic_bastian_id          = module.subnets.nic_bastian_id
     nic_jenkins_id          = module.subnets.nic_jenkins_id
 	nic_manager_id			= module.subnets.nic_manager_id
+	subnet_private_id			= module.subnets.private_subnet_id
+	sec_docker_swarm_id     = module.vpc.sec_allow_docker_swarm_id
+}
+
+module "rds" {
+	source			= "./rds"
+	public_subnet_id		= module.subnets.public_subnet_id
+	private_subnet_id		= module.subnets.private_subnet_id
 }

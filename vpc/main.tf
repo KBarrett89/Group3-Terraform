@@ -69,6 +69,53 @@ resource "aws_security_group" "allow_internal_ssh" {
   }
 }
 
+resource "aws_security_group" "allow_jenkins_to_manager_ssh" {
+  name        = "allow_jenkins_to_manager_ssh"
+  description = "Allow ssh from jenkins node"
+  vpc_id      = aws_vpc.prod-vpc.id
+
+  ingress {
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+	security_groups = [aws_security_group.jenkins.id]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+
+resource "aws_security_group" "application_ports" {
+  name        = "application_ports"
+  description = "Opens the ports for the application"
+  vpc_id      = aws_vpc.prod-vpc.id
+
+  ingress {
+    from_port   = 3000
+    to_port     = 3000
+    protocol    = "tcp"
+	cidr_blocks = ["15.0.0.0/16"]
+  }
+
+  ingress {
+    from_port   = 8080
+    to_port     = 8080
+    protocol    = "tcp"
+	cidr_blocks = ["15.0.0.0/16"]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+
 resource "aws_security_group" "jenkins" {
   name        = "jenkins"
   description = "Allow traffic to jenkins"

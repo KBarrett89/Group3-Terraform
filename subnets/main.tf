@@ -35,12 +35,12 @@ resource "aws_network_interface" "jenkins-nic" {
 resource "aws_network_interface" "bastian-nic" {
   subnet_id       = aws_subnet.subnet-public.id
   private_ips     = ["15.0.1.51"]
-  security_groups = [var.sec_web_id, var.sec_jenkins_id, var.sec_ssh_id]
+  security_groups = [var.sec_ssh_id]
 }
 resource "aws_network_interface" "manager-nic" {
   subnet_id       = aws_subnet.subnet-private.id
   private_ips     = ["15.0.2.50"]
-  security_groups = [var.sec_web_id, var.sec_jenkins_id, var.sec_internal_ssh_id, var.sec_docker_swarm_id]
+  security_groups = [var.sec_internal_ssh_id, var.sec_allow_jenkins_to_manager_ssh_id, var.sec_docker_swarm_id, var.sec_application_ports_id]
 }
 resource "aws_eip" "one" {
   vpc                       = true

@@ -22,6 +22,12 @@ output "sec_internal_ssh_id" {
 output "sec_allow_docker_swarm_id" {
 	value = aws_security_group.allow_docker_swarm.id
 }
+output "sec_allow_jenkins_to_manager_ssh_id"{
+	value = aws_security_group.allow_jenkins_to_manager_ssh.id
+}
+output "sec_application_ports_id"{
+	value = aws_security_group.application_ports.id
+}
 output "internet_gate" {
     value = aws_internet_gateway.gw
 }

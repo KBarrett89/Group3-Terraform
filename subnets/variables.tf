@@ -22,6 +22,12 @@ variable "sec_internal_ssh_id"{
 variable "sec_docker_swarm_id" {
 	
 }
+variable "sec_allow_jenkins_to_manager_ssh_id"{
+	
+}
+variable "sec_application_ports_id"{
+	
+}
 variable "internet_gate"{
 	
 }
